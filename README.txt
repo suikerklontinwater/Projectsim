@@ -1,4 +1,4 @@
 # GarageThot
-Garage opdracht voor school <b/>
-*clicking <b/>
+Garage opdracht voor school 
+*clicking 
 REEEEEEEEEEEEEEEEEEEEEEEEEE
