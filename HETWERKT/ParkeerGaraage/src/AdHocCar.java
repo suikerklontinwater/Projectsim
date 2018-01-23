@@ -2,6 +2,7 @@
 import java.util.Random;
 import java.awt.*;
 
+// 
 public class AdHocCar extends Car {
 	private static final Color COLOR = Color.red;
 
