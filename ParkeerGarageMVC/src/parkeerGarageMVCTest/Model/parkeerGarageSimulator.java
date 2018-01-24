@@ -1,15 +1,24 @@
+package parkeerGarageMVCTest.Model;
+
+
 import java.util.Random;
 
-public class Simulator {
+import parkeerGarageMVCTest.View.parkeerGarageAbonnementen;
+import parkeerGarageMVCTest.View.parkeerGarageSimulatorView;
+
+
+public class parkeerGarageSimulator {
 
 	private static final String AD_HOC = "1";
 	private static final String PASS = "2";
 
-	private CarQueue entranceCarQueue;
-	private CarQueue entrancePassQueue;
-	private CarQueue paymentCarQueue;
-	private CarQueue exitCarQueue;
-	private SimulatorView simulatorView;
+	private parkeerGarageCarQueue entranceCarQueue;
+	private parkeerGarageCarQueue entrancePassQueue;
+	private parkeerGarageCarQueue paymentCarQueue;
+	private parkeerGarageCarQueue exitCarQueue;
+	private parkeerGarageSimulatorView simulatorView;
+	@SuppressWarnings("unused")
+	private parkeerGarageAbonnementen abonnementen;
 
 	private int day = 0;
 	private int hour = 0;
@@ -20,20 +29,20 @@ public class Simulator {
 	int weekDayArrivals = 100; // average number of arriving cars per hour
 	int weekendArrivals = 200; // average number of arriving cars per hour
 	int weekDayPassArrivals = 50; // average number of arriving cars per hour
-	int weekendPassArrivals = 5; // average number of arriving cars per hour
+	int weekendPassArrivals = 50; // average number of arriving cars per hour
 
-	int enterSpeed = 3; // number of cars that can enter per minute
-	int paymentSpeed = 7; // number of cars that can pay per minute
+	int enterSpeed = 30; // number of cars that can enter per minute
+	//int enterSpeed = 10; 
+	int paymentSpeed = 70; // number of cars that can pay per minute
 	int exitSpeed = 5; // number of cars that can leave per minute
 
-	public Simulator() {
-		entranceCarQueue = new CarQueue();
-		entrancePassQueue = new CarQueue();
-		paymentCarQueue = new CarQueue();
-		exitCarQueue = new CarQueue();
-		simulatorView = new SimulatorView(3, 6, 30);
-		//simulatorView = new SimulatorView(4, 8, 30);
-
+	public parkeerGarageSimulator() {
+		entranceCarQueue = new parkeerGarageCarQueue();
+		entrancePassQueue = new parkeerGarageCarQueue();
+		paymentCarQueue = new parkeerGarageCarQueue();
+		exitCarQueue = new parkeerGarageCarQueue();
+		simulatorView = new parkeerGarageSimulatorView(2, 4, 40);
+		abonnementen = new parkeerGarageAbonnementen(1, 4, 45);
 	}
 
 	public void run() {
@@ -97,12 +106,12 @@ public class Simulator {
 		addArrivingCars(numberOfCars, PASS);
 	}
 
-	private void carsEntering(CarQueue queue) {
+	private void carsEntering(parkeerGarageCarQueue queue) {
 		int i = 0;
 		// Remove car from the front of the queue and assign to a parking space.
 		while (queue.carsInQueue() > 0 && simulatorView.getNumberOfOpenSpots() > 0 && i < enterSpeed) {
-			Car car = queue.removeCar();
-			Location freeLocation = simulatorView.getFirstFreeLocation();
+			parkeerGarageCar car = queue.removeCar();
+			parkeerGarageLocation freeLocation = simulatorView.getFirstFreeLocation();
 			simulatorView.setCarAt(freeLocation, car);
 			i++;
 		}
@@ -110,7 +119,7 @@ public class Simulator {
 
 	private void carsReadyToLeave() {
 		// Add leaving cars to the payment queue.
-		Car car = simulatorView.getFirstLeavingCar();
+		parkeerGarageCar car = simulatorView.getFirstLeavingCar();
 		while (car != null) {
 			if (car.getHasToPay()) {
 				car.setIsPaying(true);
@@ -126,7 +135,7 @@ public class Simulator {
 		// Let cars pay.
 		int i = 0;
 		while (paymentCarQueue.carsInQueue() > 0 && i < paymentSpeed) {
-			Car car = paymentCarQueue.removeCar();
+			parkeerGarageCar car = paymentCarQueue.removeCar();
 			// TODO Handle payment.
 			carLeavesSpot(car);
 			i++;
@@ -159,20 +168,48 @@ public class Simulator {
 		switch (type) {
 		case AD_HOC:
 			for (int i = 0; i < numberOfCars; i++) {
-				entranceCarQueue.addCar(new AdHocCar());
+				entranceCarQueue.addCar(new parkeerGarageAdHocCar());
 			}
 			break;
 		case PASS:
 			for (int i = 0; i < numberOfCars; i++) {
-				entrancePassQueue.addCar(new ParkingPassCar());
+				entrancePassQueue.addCar(new parkeerGarageParkingPassCar());
 			}
 			break;
 		}
 	}
 
-	private void carLeavesSpot(Car car) {
+	private void carLeavesSpot(parkeerGarageCar car) {
 		simulatorView.removeCarAt(car.getLocation());
 		exitCarQueue.addCar(car);
 	}
 
 }
+/*
+		Maandag		Dinsdag		Woensdag	Donderdag	Vrijdag		Zaterdag	Zondag
+00:00	00			00			00			00			00			00			00
+01:00	00			00			00			00			00			00			00
+02:00	00			00			00			00			00			00			00
+03:00	00			00			00			00			00			00			00
+04:00	00			00			00			00			00			00			00
+05:00	00			00			00			00			00			00			00
+06:00	00			00			00			00			00			00			00
+07:00	00			00			00			00			00			00			00
+08:00	00			00			00			00			00			00			00
+09:00	00			00			00			00			00			00			00
+10:00	00			00			00			00			00			00			00
+11:00	00			00			00			00			00			00			00
+12:00	00			00			00			00			00			00			00
+13:00	00			00			00			00			00			00			500
+14:00	00			00			00			00			00			00			500
+15:00	00			00			00			00			00			00			500
+16:00	00			00			00			00			00			00			500
+17:00	00			00			00			00			00			00			500
+18:00	00			00			00			450			200			250			500
+19:00	00			00			00			400			300			350			00
+20:00	00			00			00			350			500			500			00
+21:00	00			00			00			250			500			500			00
+22:00	00			00			00			00			500			500			00
+23:00	00			00			00			00			500			500			00
+
+*/
