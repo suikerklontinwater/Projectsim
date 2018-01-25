@@ -1,11 +1,8 @@
 package parkeerGarageMVCTest.Model;
 
-
 import java.util.Random;
 
-import parkeerGarageMVCTest.View.parkeerGarageAbonnementen;
 import parkeerGarageMVCTest.View.parkeerGarageSimulatorView;
-
 
 public class parkeerGarageSimulator {
 
@@ -18,7 +15,7 @@ public class parkeerGarageSimulator {
 	private parkeerGarageCarQueue exitCarQueue;
 	private parkeerGarageSimulatorView simulatorView;
 	@SuppressWarnings("unused")
-	private parkeerGarageAbonnementen abonnementen;
+	// private parkeerGarageAbonnementen abonnementen;
 
 	private int day = 0;
 	private int hour = 0;
@@ -26,13 +23,13 @@ public class parkeerGarageSimulator {
 
 	private int tickPause = 100;
 
-	int weekDayArrivals = 100; // average number of arriving cars per hour
+	int weekDayArrivals = 50; // average number of arriving cars per hour
 	int weekendArrivals = 200; // average number of arriving cars per hour
 	int weekDayPassArrivals = 50; // average number of arriving cars per hour
 	int weekendPassArrivals = 50; // average number of arriving cars per hour
 
 	int enterSpeed = 30; // number of cars that can enter per minute
-	//int enterSpeed = 10; 
+	// int enterSpeed = 10;
 	int paymentSpeed = 70; // number of cars that can pay per minute
 	int exitSpeed = 5; // number of cars that can leave per minute
 
@@ -41,8 +38,9 @@ public class parkeerGarageSimulator {
 		entrancePassQueue = new parkeerGarageCarQueue();
 		paymentCarQueue = new parkeerGarageCarQueue();
 		exitCarQueue = new parkeerGarageCarQueue();
-		simulatorView = new parkeerGarageSimulatorView(2, 4, 40);
-		abonnementen = new parkeerGarageAbonnementen(1, 4, 45);
+		// simulatorView = new parkeerGarageSimulatorView(2, 4, 40);
+		simulatorView = new parkeerGarageSimulatorView(3, 6, 30);
+		// abonnementen = new parkeerGarageAbonnementen(1, 4, 45);
 	}
 
 	public void run() {
@@ -80,7 +78,6 @@ public class parkeerGarageSimulator {
 		}
 
 	}
-
 	private void handleEntrance() {
 		carsArriving();
 		carsEntering(entrancePassQueue);
@@ -184,32 +181,31 @@ public class parkeerGarageSimulator {
 		exitCarQueue.addCar(car);
 	}
 
-}
-/*
-		Maandag		Dinsdag		Woensdag	Donderdag	Vrijdag		Zaterdag	Zondag
-00:00	--			--			--			--			--			--			--
-01:00	--			--			--			--			--			--			--
-02:00	--			--			--			--			--			--			--
-03:00	--			--			--			--			--			--			--
-04:00	--			--			--			--			--			--			--
-05:00	--			--			--			--			--			--			--
-06:00	--			--			--			--			--			--			--
-07:00	--			--			--			--			--			--			--
-08:00	--			--			--			--			--			--			--
-09:00	--			--			--			--			--			--			--
-10:00	--			--			--			--			--			--			--
-11:00	--			--			--			--			--			--			--
-12:00	--			--			--			--			--			--			--
-13:00	--			--			--			--			--			--			500
-14:00	--			--			--			--			--			--			500
-15:00	--			--			--			--			--			--			500
-16:00	--			--			--			--			--			--			500
-17:00	--			--			--			--			--			--			500
-18:00	--			--			--			450			200			250			500
-19:00	--			--			--			400			300			350			--
-20:00	--			--			--			350			500			500			--
-21:00	--			--			--			250			500			500			--
-22:00	--			--			--			--			500			500			--
-23:00	--			--			--			--			500			500			--
+	/*
+	 * The amount of cars arriving per hour between 04:00 and 08:00 for a normal day
+	 */
+	private void normalNight() {
+		weekDayArrivals = 10; // average number of arriving cars per hour
+	}
 
-*/
+	/*
+	 * The amount of cars arriving per hour between 08:00 and 12:00 for a normal day
+	 */
+	private void normalMorning() {
+		weekDayArrivals = 75;
+	}
+
+	/*
+	 * The amount of cars arriving per hour between 12:00 and 18:00 for a normal day
+	 */
+	private void normalAfternoon() {
+		weekDayArrivals = 100;
+	}
+
+	/*
+	 * The amount of cars arriving per hour between 18:00 and 04:00 for a normal day
+	 */
+	private void normalEvening() {
+		weekDayArrivals = 50;
+	}
+}

@@ -172,7 +172,7 @@ public class parkeerGarageSimulatorView extends JFrame {
 		 * Overridden. Tell the GUI manager how big we would like to be.
 		 */
 		public Dimension getPreferredSize() {
-			return new Dimension(550, 500);
+			return new Dimension(800, 500);
 		}
 
 		/**
