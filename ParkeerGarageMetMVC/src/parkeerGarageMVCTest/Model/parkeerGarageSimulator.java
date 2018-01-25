@@ -17,14 +17,14 @@ public class parkeerGarageSimulator {
 	@SuppressWarnings("unused")
 	// private parkeerGarageAbonnementen abonnementen;
 
-	private int day = 3;
-	private int hour = 12;
+	private int day = 0;
+	private int hour = 0;
 	private int minute = 0;
 	private int tickPause = 100;
 
-	int weekDayArrivals = 70; // average number of arriving cars per hour
-	int weekendArrivals = 200; // average number of arriving cars per hour
-	int weekDayPassArrivals = 50; // average number of arriving cars per hour
+	int weekDayArrivals = 40; // average number of arriving cars per hour
+	int weekendArrivals = 40; // average number of arriving cars per hour
+	int weekDayPassArrivals = 00; // average number of arriving cars per hour
 	int weekendPassArrivals = 50; // average number of arriving cars per hour
 
 	int enterSpeed = 30; // number of cars that can enter per minute
@@ -69,7 +69,7 @@ public class parkeerGarageSimulator {
 			hour++;
 			checkTime();
 		}
-		while (hour > 23) {
+		while (hour > 22) {
 			hour -= 24;
 			day++;
 		}
@@ -97,37 +97,33 @@ public class parkeerGarageSimulator {
 		case 6: dayString = "Sunday";
 				break;
 		}
-		String time = (hour + ":00");
 		switch (hour){
-		case 1: if (dayString == "Saturday" || dayString == "Sunday") {
-					busyNight();
-				}
-				else {
-					normalNight();
-				}
-				break;
-		case 9: if (dayString == "Sunday") {
-					busyMorning();
-				}
-				else {
-					normalMorning();
-				}
-				break;
-		case 13:if(dayString == "Sunday") {
-					busyAfternoon();
-				}
-				else {
-					normalAfternoon();
-				}	
-				break;
-		case 19:if (dayString == "Thursday" || dayString == "Friday" || dayString == "Saturday"){
-					busyEvening();
-				}
-				else {
-					normalEvening();
-				}
-				break;
+		case 0:
+			weekDayArrivals = 40;
+			break;
+		case 3:
+			weekDayArrivals = 40;
+			 break;
+		case 6:
+			weekDayArrivals = 50;
+			break;
+		case 9:
+			weekDayArrivals = 70;
+			break;
+		case 12:
+			weekDayArrivals = 130;
+			break;
+		case 15:
+			weekDayArrivals = 110;
+			break;
+		case 18:
+			weekDayArrivals = 70;
+			break;
+		case 21:
+			weekDayArrivals = 40;
+			break;
 		}
+		String time = (hour + ":00");
 		if (hour < 10) {
 			System.out.println(dayString +": 0" + time);
 		}
@@ -239,64 +235,4 @@ public class parkeerGarageSimulator {
 		exitCarQueue.addCar(car);
 	}
 
-	/*
-	 * The amount of cars arriving per hour between 00:00 and 08:00 for a normal day
-	 */
-	private void normalNight() {
-		weekDayArrivals = 40; // average number of arriving cars per hour
-	}
-	/*
-	 * The amount of cars arriving per hour between 00:00 and 08:00 for a busy day (Evenement)
-	 */
-	private void busyNight() {
-		weekDayArrivals = 70;
-		System.out.println("It's gonna be a busy night...");
-	}
-	/*
-	 * The amount of cars arriving per hour between 08:00 and 12:00 for a normal day
-	 */
-	private void normalMorning() {
-		weekDayArrivals = 70;
-	}
-	/*
-	 * The amount of cars arriving per hour between 18:00 and 12:00 for a busy day (Evenement)
-	 */
-	private void busyMorning() {
-		weekDayArrivals = 120;
-		System.out.println("It's gonna be a busy morning...");
-	}
-	/*
-	 * The amount of cars arriving per hour between 12:00 and 18:00 for a normal day
-	 */
-	private void normalAfternoon() {
-		weekDayArrivals = 100;
-	}
-	/*
-	 * The amount of cars arriving per hour between 12:00 and 18:00 for a busy day (Koopavond)
-	 */
-	private void busyAfternoonK() {
-		weekDayArrivals = 200;
-		System.out.println("It's gonna be a busy afternoon...");
-	}
-	/*
-	 * The amount of cars arriving per hour between 12:00 and 18:00 for a busy day (Evenement)
-	 */
-	private void busyAfternoonE() {
-		weekDayArrivals = 250;
-		System.out.println("It's gonna be a busy afternoon...");
-	}
-	/*
-	 * The amount of cars arriving per hour between 18:00 and 00:00 for a normal day
-	 */
-	private void normalEvening() {
-		weekDayArrivals = 60;
-	}
-	/*
-	 * The amount of cars arriving per hour between 18:00 and 00:00 for a busy day (Evenement)
-	 */
-	private void busyEvening() {
-		weekDayArrivals = 100;
-		System.out.println("It's gonna be a busy evening...");
-	}
-	
 }

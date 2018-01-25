@@ -1,0 +1,65 @@
+	/*
+	 * The amount of cars arriving per hour between 00:00 and 04:00 for a normal day
+	 */
+	private void normalNight() {
+		weekDayArrivals = 20; // average number of arriving cars per hour
+	}
+	/*
+	 * The amount of cars arriving per hour between 04:00 and 08:00 for a normal day
+	 */
+	private void normalNight2() {
+		weekDayArrivals = 50;
+	}
+	/*
+	 * The amount of cars arriving per hour between 00:00 and 08:00 for a busy day (Evenement)
+	 */
+	private void busyNight() {
+		weekDayArrivals = 70;
+		System.out.println("It's gonna be a busy night...");
+	}
+	/*
+	 * The amount of cars arriving per hour between 08:00 and 12:00 for a normal day
+	 */
+	private void normalMorning() {
+		weekDayArrivals = 90;
+	}
+	/*
+	 * The amount of cars arriving per hour between 08:00 and 12:00 for a busy day (Evenement)
+	 */
+	private void busyMorning() {
+		weekDayArrivals = 110;
+		System.out.println("It's gonna be a busy morning...");
+	}
+	/*
+	 * The amount of cars arriving per hour between 12:00 and 18:00 for a normal day
+	 */
+	private void normalAfternoon() {
+		weekDayArrivals = 130;
+	}
+	/*
+	 * The amount of cars arriving per hour between 12:00 and 18:00 for a busy day (Koopavond)
+	 */
+	private void busyAfternoonK() {
+		weekDayArrivals = 220;
+		System.out.println("It's gonna be a busy afternoon...");
+	}
+	/*
+	 * The amount of cars arriving per hour between 12:00 and 18:00 for a busy day (Evenement)
+	 */
+	private void busyAfternoonE() {
+		weekDayArrivals = 250;
+		System.out.println("It's gonna be a busy afternoon...");
+	}
+	/*
+	 * The amount of cars arriving per hour between 18:00 and 00:00 for a normal day
+	 */
+	private void normalEvening() {
+		weekDayArrivals = 100;
+	}
+	/*
+	 * The amount of cars arriving per hour between 18:00 and 00:00 for a busy day (Evenement)
+	 */
+	private void busyEvening() {
+		weekDayArrivals = 150;
+		System.out.println("It's gonna be a busy evening...");
+	}
