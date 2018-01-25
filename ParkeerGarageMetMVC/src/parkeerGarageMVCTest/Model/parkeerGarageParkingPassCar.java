@@ -5,7 +5,7 @@ import java.util.Random;
 
 //Deze klasse geeft aan wanneer een auto niet meer geparkeerd staat op een locatie
 public class parkeerGarageParkingPassCar extends parkeerGarageCar {
-	private static final Color COLOR = Color.blue;
+	private static final Color COLOR = Color.green;
 
 	// Auto gaat van de locatie af na een random tijd
 	public parkeerGarageParkingPassCar() {
