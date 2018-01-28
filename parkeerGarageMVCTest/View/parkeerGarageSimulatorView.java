@@ -46,8 +46,7 @@ public class parkeerGarageSimulatorView extends JFrame {
 	public void updateView() {
 		carParkView.updateView();
 	}
-	
-	public int getNumberOfFloors() {
+ int getNumberOfFloors() {
 		return numberOfFloors;
 	}
 
@@ -152,7 +151,7 @@ public class parkeerGarageSimulatorView extends JFrame {
 		return true;
 	}
 
-	public class CarParkView extends JPanel {
+	private class CarParkView extends JPanel {
 
 		/**
 		 * 

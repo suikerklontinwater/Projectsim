@@ -14,6 +14,19 @@ import javax.swing.JPanel;
 import parkeerGarageMVCTest.Model.parkeerGarageCar;
 import parkeerGarageMVCTest.Model.parkeerGarageLocation;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import parkeerGarageMVCTest.Model.parkeerGarageCar;
+import parkeerGarageMVCTest.Model.parkeerGarageLocation;
+
 public class parkeerGarageSimulatorView extends JFrame {
 	/**
 	 * 
@@ -46,8 +59,7 @@ public class parkeerGarageSimulatorView extends JFrame {
 	public void updateView() {
 		carParkView.updateView();
 	}
-	
-	public int getNumberOfFloors() {
+ int getNumberOfFloors() {
 		return numberOfFloors;
 	}
 
@@ -152,7 +164,7 @@ public class parkeerGarageSimulatorView extends JFrame {
 		return true;
 	}
 
-	public class CarParkView extends JPanel {
+	private class CarParkView extends JPanel {
 
 		/**
 		 * 
@@ -225,3 +237,4 @@ public class parkeerGarageSimulatorView extends JFrame {
 	}
 
 }
+

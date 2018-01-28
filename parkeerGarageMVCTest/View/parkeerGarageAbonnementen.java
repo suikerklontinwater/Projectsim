@@ -1,6 +1,5 @@
 package parkeerGarageMVCTest.View;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -14,29 +13,29 @@ import javax.swing.JPanel;
 import parkeerGarageMVCTest.Model.parkeerGarageCar;
 import parkeerGarageMVCTest.Model.parkeerGarageLocation;
 
-public class parkeerGarageSimulatorView extends JFrame {
+public class parkeerGarageAbonnementen extends JFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private CarParkView carParkView;
-	private int numberOfFloors;
-	private int numberOfRows;
-	private int numberOfPlaces;
-	private int numberOfOpenSpots;
-	private parkeerGarageCar[][][] cars;
+	private CarParkView carParkViewAbbo;
+	private int numberOfFloorsAbbo;
+	private int numberOfRowsAbbo;
+	private int numberOfPlacesAbbo;
+	private int numberOfOpenSpotsAbbo;
+	private parkeerGarageCar[][][] carsAbbo;
 
-	public parkeerGarageSimulatorView(int numberOfFloors, int numberOfRows, int numberOfPlaces) {
-		this.numberOfFloors = numberOfFloors;
-		this.numberOfRows = numberOfRows;
-		this.numberOfPlaces = numberOfPlaces;
-		this.numberOfOpenSpots = numberOfFloors * numberOfRows * numberOfPlaces;
-		cars = new parkeerGarageCar[numberOfFloors][numberOfRows][numberOfPlaces];
+	public parkeerGarageAbonnementen(int numberOfFloorsAbbo, int numberOfRowsAbbo, int numberOfPlacesAbbo) {
+		this.numberOfFloorsAbbo = numberOfFloorsAbbo;
+		this.numberOfRowsAbbo = numberOfRowsAbbo;
+		this.numberOfPlacesAbbo = numberOfPlacesAbbo;
+		this.numberOfOpenSpotsAbbo = numberOfFloorsAbbo * numberOfRowsAbbo * numberOfPlacesAbbo;
+		carsAbbo = new parkeerGarageCar[numberOfFloorsAbbo][numberOfRowsAbbo][numberOfPlacesAbbo];
 
-		carParkView = new CarParkView();
+		carParkViewAbbo = new CarParkView();
 
 		Container contentPane = getContentPane();
-		contentPane.add(carParkView, BorderLayout.EAST);
+		contentPane.add(carParkViewAbbo, BorderLayout.SOUTH);
 		pack();
 		setVisible(true);
 
@@ -44,30 +43,30 @@ public class parkeerGarageSimulatorView extends JFrame {
 	}
 
 	public void updateView() {
-		carParkView.updateView();
+		carParkViewAbbo.updateView();
 	}
-	
+
 	public int getNumberOfFloors() {
-		return numberOfFloors;
+		return numberOfFloorsAbbo;
 	}
 
 	public int getNumberOfRows() {
-		return numberOfRows;
+		return numberOfRowsAbbo;
 	}
 
 	public int getNumberOfPlaces() {
-		return numberOfPlaces;
+		return numberOfPlacesAbbo;
 	}
 
 	public int getNumberOfOpenSpots() {
-		return numberOfOpenSpots;
+		return numberOfOpenSpotsAbbo;
 	}
 
 	public parkeerGarageCar getCarAt(parkeerGarageLocation location) {
 		if (!locationIsValid(location)) {
 			return null;
 		}
-		return cars[location.getFloor()][location.getRow()][location.getPlace()];
+		return carsAbbo[location.getFloor()][location.getRow()][location.getPlace()];
 	}
 
 	public boolean setCarAt(parkeerGarageLocation freeLocation, parkeerGarageCar car) {
@@ -76,9 +75,9 @@ public class parkeerGarageSimulatorView extends JFrame {
 		}
 		parkeerGarageCar oldCar = getCarAt(freeLocation);
 		if (oldCar == null) {
-			cars[freeLocation.getFloor()][freeLocation.getRow()][freeLocation.getPlace()] = car;
+			carsAbbo[freeLocation.getFloor()][freeLocation.getRow()][freeLocation.getPlace()] = car;
 			car.setLocation(freeLocation);
-			numberOfOpenSpots--;
+			numberOfOpenSpotsAbbo--;
 			return true;
 		}
 		return false;
@@ -92,9 +91,9 @@ public class parkeerGarageSimulatorView extends JFrame {
 		if (car == null) {
 			return null;
 		}
-		cars[location.getFloor()][location.getRow()][location.getPlace()] = null;
+		carsAbbo[location.getFloor()][location.getRow()][location.getPlace()] = null;
 		car.setLocation(null);
-		numberOfOpenSpots++;
+		numberOfOpenSpotsAbbo++;
 		return car;
 	}
 
@@ -145,14 +144,14 @@ public class parkeerGarageSimulatorView extends JFrame {
 		int floor = freeLocation.getFloor();
 		int row = freeLocation.getRow();
 		int place = freeLocation.getPlace();
-		if (floor < 0 || floor >= numberOfFloors || row < 0 || row > numberOfRows || place < 0
-				|| place > numberOfPlaces) {
+		if (floor < 0 || floor >= numberOfFloorsAbbo || row < 0 || row > numberOfRowsAbbo || place < 0
+				|| place > numberOfPlacesAbbo) {
 			return false;
 		}
 		return true;
 	}
 
-	public class CarParkView extends JPanel {
+	private class CarParkView extends JPanel {
 
 		/**
 		 * 
@@ -172,7 +171,7 @@ public class parkeerGarageSimulatorView extends JFrame {
 		 * Overridden. Tell the GUI manager how big we would like to be.
 		 */
 		public Dimension getPreferredSize() {
-			return new Dimension(800, 500);
+			return new Dimension(270, 550);
 		}
 
 		/**
