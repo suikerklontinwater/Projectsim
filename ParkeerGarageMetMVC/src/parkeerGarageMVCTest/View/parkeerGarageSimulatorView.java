@@ -46,7 +46,7 @@ public class parkeerGarageSimulatorView extends JFrame {
 	public void updateView() {
 		carParkView.updateView();
 	}
-
+	
 	public int getNumberOfFloors() {
 		return numberOfFloors;
 	}

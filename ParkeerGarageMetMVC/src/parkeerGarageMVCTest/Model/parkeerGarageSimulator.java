@@ -18,11 +18,12 @@ public class parkeerGarageSimulator {
 	// private parkeerGarageAbonnementen abonnementen;
 
 	private int day = 0;
-	private int hour = 0;
+	private int hour = 2;
 	private int minute = 0;
 	private int tickPause = 100;
+	int ticks = 0;
 
-	int weekDayArrivals = 40; // average number of arriving cars per hour
+	int weekDayArrivals = 20; // average number of arriving cars per hour
 	int weekendArrivals = 40; // average number of arriving cars per hour
 	int weekDayPassArrivals = 00; // average number of arriving cars per hour
 	int weekendPassArrivals = 50; // average number of arriving cars per hour
@@ -52,6 +53,7 @@ public class parkeerGarageSimulator {
 		advanceTime();
 		handleExit();
 		updateViews();
+		ticks++;
 		// Pause.
 		try {
 			Thread.sleep(tickPause);
@@ -80,6 +82,7 @@ public class parkeerGarageSimulator {
 	}
 
 	private void checkTime() {
+		int b = 0;
 		String dayString = null;
 		switch (day) {
 		case 0: dayString = "Monday";
@@ -99,36 +102,121 @@ public class parkeerGarageSimulator {
 		}
 		switch (hour){
 		case 0:
-			weekDayArrivals = 40;
+			
+			for (int a = 1; a <178 ; a++) {
+				b++;
+				if(b == 15) {
+					weekDayArrivals -= 1;
+					b= 0;
+				}
+				tick();
+			}
+			if (b != 0) {
+				b = 0;
+			}
+			
 			break;
 		case 3:
-			weekDayArrivals = 40;
+			if (weekDayArrivals > 20) {
+				weekDayArrivals = 20;
+			}
+			for (int a = 1; a <178 ; a++) {
+				b++;
+				if(b == 40) {
+					weekDayArrivals += 1;
+					b = 0;
+					}
+				tick();
+			}
+			if (b != 0) {
+				b = 0;
+			}
 			 break;
 		case 6:
-			weekDayArrivals = 50;
+			for (int a = 1; a <178 ; a++) {
+				b++;
+				if(b == 25) {
+					weekDayArrivals += 1;
+					b= 0;
+				}
+				tick();
+			}
+			if (b != 0) {
+				b = 0;
+			}
 			break;
 		case 9:
-			weekDayArrivals = 70;
+			for (int a = 1; a <178 ; a++) {
+				b++;
+				if(b == 8) {
+					weekDayArrivals += 1;
+					b= 0;
+				}
+				tick();
+			}
+			if (b != 0) {
+				b = 0;
+			}
 			break;
 		case 12:
-			weekDayArrivals = 130;
+			for (int a = 1; a <178 ; a++) {
+				b++;
+				if(b == 12) {
+					weekDayArrivals += 3;
+					b= 0;
+				}
+				tick();
+			}
+			if (b != 0) {
+				b = 0;
+			}
 			break;
 		case 15:
-			weekDayArrivals = 110;
+			for (int a = 1; a <178 ; a++) {
+				b++;
+				if(b == 20) {
+					weekDayArrivals += 1;
+					b= 0;
+				}
+				tick();
+			}
+			if (b != 0) {
+				b = 0;
+			}
 			break;
 		case 18:
-			weekDayArrivals = 70;
+			for (int a = 0; a <178 ; a++) {
+				b++;
+				if(b == 15) {
+					weekDayArrivals -= 3;
+					b= 0;
+				}
+				tick();
+			}
+			if (b != 0) {
+				b = 0;
+			}
 			break;
 		case 21:
-			weekDayArrivals = 40;
+			for (int a = 1; a <178 ; a++) {
+				b++;
+				if(b == 10) {
+					weekDayArrivals -= 2;
+					b= 0;
+				}
+				tick();
+			}
+			if (b != 0) {
+				b = 0;
+			}
 			break;
 		}
 		String time = (hour + ":00");
 		if (hour < 10) {
-			System.out.println(dayString +": 0" + time);
+			System.out.println(dayString +": 0" + time + ": " + weekDayArrivals);
 		}
 		else {
-		System.out.println(dayString + ": " + time);
+		System.out.println(dayString + ": " + time+ ": " + weekDayArrivals);
 		}
 	}
 
