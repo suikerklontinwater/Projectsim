@@ -2,8 +2,6 @@ package parkeerGarageMVCTest.Model;
 
 import java.util.Random;
 
-import parkeerGarageMVCTest.View.parkeerGarageSimulatorView;
-
 public class parkeerGarageSimulator {
 
 	private static final String AD_HOC = "1";
@@ -13,20 +11,21 @@ public class parkeerGarageSimulator {
 	private parkeerGarageCarQueue entrancePassQueue;
 	private parkeerGarageCarQueue paymentCarQueue;
 	private parkeerGarageCarQueue exitCarQueue;
-	private parkeerGarageSimulatorView simulatorView;
+	private parkeerGarageSimulatorViewModel simulatorView;
 	@SuppressWarnings("unused")
 	// private parkeerGarageAbonnementen abonnementen;
 
 	private int day = 0;
-	private int hour = 2;
+	private int hour = 0;
 	private int minute = 0;
 	private int tickPause = 100;
 	int ticks = 0;
+	int b = 0;
 
 	int weekDayArrivals = 20; // average number of arriving cars per hour
-	int weekendArrivals = 40; // average number of arriving cars per hour
-	int weekDayPassArrivals = 00; // average number of arriving cars per hour
-	int weekendPassArrivals = 50; // average number of arriving cars per hour
+	int weekendArrivals = 20; // average number of arriving cars per hour
+	int weekDayPassArrivals = 0; // average number of arriving cars per hour
+	int weekendPassArrivals = 0; // average number of arriving cars per hour
 
 	int enterSpeed = 30; // number of cars that can enter per minute
 	// int enterSpeed = 10;
@@ -39,7 +38,7 @@ public class parkeerGarageSimulator {
 		paymentCarQueue = new parkeerGarageCarQueue();
 		exitCarQueue = new parkeerGarageCarQueue();
 		// simulatorView = new parkeerGarageSimulatorView(2, 4, 40);
-		simulatorView = new parkeerGarageSimulatorView(3, 6, 30);
+		simulatorView = new parkeerGarageSimulatorViewModel(3, 6, 30);
 		// abonnementen = new parkeerGarageAbonnementen(1, 4, 45);
 	}
 
@@ -71,7 +70,7 @@ public class parkeerGarageSimulator {
 			hour++;
 			checkTime();
 		}
-		while (hour > 22) {
+		while (hour > 23) {
 			hour -= 24;
 			day++;
 		}
@@ -82,141 +81,120 @@ public class parkeerGarageSimulator {
 	}
 
 	private void checkTime() {
-		int b = 0;
 		String dayString = null;
 		switch (day) {
-		case 0: dayString = "Monday";
-				break;
-		case 1: dayString = "Tuesday";
-				break;
-		case 2: dayString = "Wednesday";
-				break;
-		case 3: dayString = "Thursday";
-				break;
-		case 4: dayString = "Friday";
-				break;
-		case 5: dayString = "Saturday";
-				break;
-		case 6: dayString = "Sunday";
-				break;
-		}
-		switch (hour){
 		case 0:
-			
-			for (int a = 1; a <178 ; a++) {
-				b++;
-				if(b == 15) {
-					weekDayArrivals -= 1;
-					b= 0;
-				}
-				tick();
-			}
-			if (b != 0) {
-				b = 0;
-			}
-			
+			dayString = "Monday";
+			break;
+		case 1:
+			dayString = "Tuesday";
+			break;
+		case 2:
+			dayString = "Wednesday";
 			break;
 		case 3:
-			if (weekDayArrivals > 20) {
-				weekDayArrivals = 20;
-			}
-			for (int a = 1; a <178 ; a++) {
-				b++;
-				if(b == 40) {
-					weekDayArrivals += 1;
-					b = 0;
-					}
-				tick();
-			}
-			if (b != 0) {
-				b = 0;
-			}
-			 break;
+			dayString = "Thursday";
+			break;
+		case 4:
+			dayString = "Friday";
+			break;
+		case 5:
+			dayString = "Saturday";
+			break;
 		case 6:
-			for (int a = 1; a <178 ; a++) {
-				b++;
-				if(b == 25) {
-					weekDayArrivals += 1;
-					b= 0;
-				}
-				tick();
+			dayString = "Sunday";
+			break;
+		}
+		switch (hour) {
+		case 0:
+			switch (dayString) {
+			case "Saturday":
+			case "Sunday":
+				setCars(10,-6);
+				break;
+			default:
+				setCars(14,-1);
+				break;
 			}
-			if (b != 0) {
-				b = 0;
-			}
+		case 3:
+			weekDayArrivals = 20;
+			weekendArrivals = 20;
+			setCars(40,1);
+			break;
+		case 6:
+			setCars(25,1);
 			break;
 		case 9:
-			for (int a = 1; a <178 ; a++) {
-				b++;
-				if(b == 8) {
-					weekDayArrivals += 1;
-					b= 0;
-				}
-				tick();
-			}
-			if (b != 0) {
-				b = 0;
+			switch (dayString) {
+			case "Sunday":
+				setCars(10,2);
+				break;
+
+			default:
+				setCars(8,1);
+				break;
 			}
 			break;
 		case 12:
-			for (int a = 1; a <178 ; a++) {
-				b++;
-				if(b == 12) {
-					weekDayArrivals += 3;
-					b= 0;
-				}
-				tick();
-			}
-			if (b != 0) {
-				b = 0;
+			switch (dayString) {
+			case "Sunday":
+				setCars(10,4);
+				break;
+				
+			default:
+				setCars(12,3);
+				break;
 			}
 			break;
 		case 15:
-			for (int a = 1; a <178 ; a++) {
-				b++;
-				if(b == 20) {
-					weekDayArrivals += 1;
-					b= 0;
-				}
-				tick();
-			}
-			if (b != 0) {
-				b = 0;
+			switch (dayString) {
+			case "Thursday":
+				setCars(10,2);
+				break;
+				
+			case "Friday":
+			case "Saturday":
+				setCars(10,3);
+				break;
+				
+			default:
+				setCars(20,1);
+				break;
 			}
 			break;
 		case 18:
-			for (int a = 0; a <178 ; a++) {
-				b++;
-				if(b == 15) {
-					weekDayArrivals -= 3;
-					b= 0;
-				}
-				tick();
-			}
-			if (b != 0) {
-				b = 0;
-			}
+			switch (dayString) {
+			case "Thursday":
+				setCars(18,2);
+				break;
+			case "Friday":
+			case "Saturday":
+			setCars(15,3);
 			break;
-		case 21:
-			for (int a = 1; a <178 ; a++) {
-				b++;
-				if(b == 10) {
-					weekDayArrivals -= 2;
-					b= 0;
-				}
-				tick();
+		default:
+			setCars(15,-3);
+			break;
 			}
-			if (b != 0) {
-				b = 0;
+		case 21:
+			switch (dayString) {
+			case "Thursday":
+				setCars(10,-7);
+				break;
+			case "Friday":
+			case "Saturday":
+				break;
+			default:
+				setCars(10,-2);
+				break;
 			}
 			break;
 		}
+
 		String time = (hour + ":00");
 		if (hour < 10) {
-			System.out.println(dayString +": 0" + time + ": " + weekDayArrivals);
-		}
-		else {
-		System.out.println(dayString + ": " + time+ ": " + weekDayArrivals);
+			System.out.println(dayString + ": 0" + time + ": " + weekDayArrivals);
+		} else {
+			System.out.println(dayString + ": " + time + ": " + weekDayArrivals);
 		}
 	}
 
@@ -322,5 +300,18 @@ public class parkeerGarageSimulator {
 		simulatorView.removeCarAt(car.getLocation());
 		exitCarQueue.addCar(car);
 	}
-
+	
+	private void setCars(int c, int weekDayArrival) {
+		for (int a = 1; a < 180; a++) {
+			b++;
+			if (b == c) {
+				weekDayArrivals += weekDayArrival;
+				weekendArrivals += weekDayArrival;
+				b = 0;
+			}
+			tick();
+		}
+		b = 0;
+		System.out.println(minute);
+	}
 }
