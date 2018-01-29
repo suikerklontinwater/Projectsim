@@ -12,15 +12,15 @@ public class parkeerGarageSimulator {
 	private parkeerGarageCarQueue paymentCarQueue;
 	private parkeerGarageCarQueue exitCarQueue;
 	private parkeerGarageSimulatorViewModel simulatorView;
-	@SuppressWarnings("unused")
-	// private parkeerGarageAbonnementen abonnementen;
-
 	private int day = 3;
 	private int hour = 0;
 	private int minute = 0;
-	private int tickPause = 100;
+	private int tickPause = 5;
 	int ticks = 0;
 	int b = 0;
+	private static float ADHOCcount = 0;
+	private static float PASScount = 0;
+	private static float ALLcount = 0;
 
 	int weekDayArrivals = 20; // average number of arriving cars per hour
 	int weekendArrivals = 20; // average number of arriving cars per hour
@@ -52,6 +52,7 @@ public class parkeerGarageSimulator {
 		advanceTime();
 		handleExit();
 		updateViews();
+		countAllCars();
 		ticks++;
 		// Pause.
 		try {
@@ -220,7 +221,7 @@ public class parkeerGarageSimulator {
 	private void carsEntering(parkeerGarageCarQueue queue) {
 		int i = 0;
 		// Remove car from the front of the queue and assign to a parking space.
-		while (queue.carsInQueue() > 0 && simulatorView.getNumberOfOpenSpots() > 0 && i < enterSpeed) {
+		while (queue.carsInQueue() > 0 && parkeerGarageSimulatorViewModel.getNumberOfOpenSpots() > 0 && i < enterSpeed) {
 			parkeerGarageCar car = queue.removeCar();
 			parkeerGarageLocation freeLocation = simulatorView.getFirstFreeLocation();
 			simulatorView.setCarAt(freeLocation, car);
@@ -273,18 +274,36 @@ public class parkeerGarageSimulator {
 		double numberOfCarsPerHour = averageNumberOfCarsPerHour + random.nextGaussian() * standardDeviation;
 		return (int) Math.round(numberOfCarsPerHour / 60);
 	}
-
+	public static float getADHOC() {
+		return ADHOCcount;
+	}
+	private void setADHOC() {
+		ADHOCcount--;
+	}
+	public static float getPASS() {
+		return PASScount;
+	}
+	private void setPASS() {
+		PASScount--;
+	}
+	
+	private static void countAllCars() {
+		ALLcount = (-getADHOC() + -getPASS() - parkeerGarageSimulatorViewModel.getDelCar());
+	}
+	
 	private void addArrivingCars(int numberOfCars, String type) {
 		// Add the cars to the back of the queue.
 		switch (type) {
 		case AD_HOC:
 			for (int i = 0; i < numberOfCars; i++) {
 				entranceCarQueue.addCar(new parkeerGarageAdHocCar());
+				setADHOC();
 			}
 			break;
 		case PASS:
 			for (int i = 0; i < numberOfCars; i++) {
 				entrancePassQueue.addCar(new parkeerGarageParkingPassCar());
+				setPASS();
 			}
 			break;
 		}
