@@ -19,6 +19,7 @@ public class parkeerGarageSimulatorViewModel extends JFrame {
 	private int numberOfPlaces;
 	private int numberOfOpenSpots;
 	private parkeerGarageCar[][][] cars;
+	private float count = 0;
 
 	public parkeerGarageSimulatorViewModel(int numberOfFloors, int numberOfRows, int numberOfPlaces) {
 		this.numberOfFloors = numberOfFloors;
@@ -73,6 +74,7 @@ public class parkeerGarageSimulatorViewModel extends JFrame {
 			cars[freeLocation.getFloor()][freeLocation.getRow()][freeLocation.getPlace()] = car;
 			car.setLocation(freeLocation);
 			numberOfOpenSpots--;
+			count--;
 			return true;
 		}
 		return false;
@@ -89,6 +91,7 @@ public class parkeerGarageSimulatorViewModel extends JFrame {
 		cars[location.getFloor()][location.getRow()][location.getPlace()] = null;
 		car.setLocation(null);
 		numberOfOpenSpots++;
+		count++;
 		return car;
 	}
 
@@ -202,6 +205,13 @@ public class parkeerGarageSimulatorViewModel extends JFrame {
 			graphics.fillRect(location.getFloor() * 260 + (1 + (int) Math.floor(location.getRow() * 0.5)) * 75
 					+ (location.getRow() % 2) * 20, 60 + location.getPlace() * 10, 20 - 1, 10 - 1); // TODO use dynamic
 																									// size or constants
+			
+			graphics.setColor(Color.black);
+		    graphics.fillArc(125, 125, 125,125, 0, 360 );
+		    graphics.setColor(Color.red);
+		    graphics.fillArc(125, 125, 125, 125, 90, Math.round((count / 540) * 360));
+		    //graphics.setColor(Color.blue);
+		    //graphics.fillArc(125,125,125,125,0,360);
 		}
 	}
 

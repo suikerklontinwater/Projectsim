@@ -15,7 +15,7 @@ public class parkeerGarageSimulator {
 	@SuppressWarnings("unused")
 	// private parkeerGarageAbonnementen abonnementen;
 
-	private int day = 0;
+	private int day = 3;
 	private int hour = 0;
 	private int minute = 0;
 	private int tickPause = 100;
@@ -24,8 +24,8 @@ public class parkeerGarageSimulator {
 
 	int weekDayArrivals = 20; // average number of arriving cars per hour
 	int weekendArrivals = 20; // average number of arriving cars per hour
-	int weekDayPassArrivals = 0; // average number of arriving cars per hour
-	int weekendPassArrivals = 0; // average number of arriving cars per hour
+	int weekDayPassArrivals = 20; // average number of arriving cars per hour
+	int weekendPassArrivals = 20; // average number of arriving cars per hour
 
 	int enterSpeed = 30; // number of cars that can enter per minute
 	// int enterSpeed = 10;
@@ -110,91 +110,85 @@ public class parkeerGarageSimulator {
 			switch (dayString) {
 			case "Saturday":
 			case "Sunday":
-				setCars(10,-6);
+				setCars(10, -6);
 				break;
 			default:
-				setCars(14,-1);
-				break;
+				setCars(14, -1);
 			}
 		case 3:
 			weekDayArrivals = 20;
 			weekendArrivals = 20;
-			setCars(40,1);
+			setCars(40, 1);
 			break;
 		case 6:
-			setCars(25,1);
+			setCars(25, 1);
 			break;
 		case 9:
 			switch (dayString) {
 			case "Sunday":
-				setCars(10,2);
+				setCars(10, 2);
 				break;
 
 			default:
-				setCars(8,1);
-				break;
+				setCars(8, 1);
 			}
 			break;
 		case 12:
 			switch (dayString) {
 			case "Sunday":
-				setCars(10,4);
+				setCars(10, 4);
 				break;
-				
+
 			default:
-				setCars(12,3);
-				break;
+				setCars(12, 3);
 			}
 			break;
 		case 15:
 			switch (dayString) {
 			case "Thursday":
-				setCars(10,2);
+				setCars(10, 2);
 				break;
-				
+
 			case "Friday":
 			case "Saturday":
-				setCars(10,3);
+				setCars(10, 3);
 				break;
-				
+
 			default:
-				setCars(20,1);
-				break;
+				setCars(20, 1);
 			}
 			break;
 		case 18:
 			switch (dayString) {
 			case "Thursday":
-				setCars(18,2);
+				setCars(18, 2);
 				break;
 			case "Friday":
 			case "Saturday":
-			setCars(15,3);
-			break;
-		default:
-			setCars(15,-3);
-			break;
+				setCars(15, 3);
+				break;
+			default:
+				setCars(15, -3);
 			}
 		case 21:
 			switch (dayString) {
 			case "Thursday":
-				setCars(10,-7);
+				setCars(10, -7);
 				break;
 			case "Friday":
 			case "Saturday":
 				break;
 			default:
-				setCars(10,-2);
-				break;
+				setCars(10, -2);
 			}
 			break;
 		}
 
 		String time = (hour + ":00");
 		if (hour < 10) {
-			System.out.println(dayString + ": 0" + time + ": " + weekDayArrivals);
+			System.out.println(dayString + ": 0" + time);
 		} else {
-			System.out.println(dayString + ": " + time + ": " + weekDayArrivals);
+			System.out.println(dayString + ": " + time);
 		}
 	}
 
@@ -300,11 +294,11 @@ public class parkeerGarageSimulator {
 		simulatorView.removeCarAt(car.getLocation());
 		exitCarQueue.addCar(car);
 	}
-	
+
 	private void setCars(int c, int weekDayArrival) {
 		for (int a = 1; a < 180; a++) {
 			b++;
-			if (b == c) {
+			if (b == c && weekDayArrivals > 0) {
 				weekDayArrivals += weekDayArrival;
 				weekendArrivals += weekDayArrival;
 				b = 0;
@@ -312,6 +306,6 @@ public class parkeerGarageSimulator {
 			tick();
 		}
 		b = 0;
-		System.out.println(minute);
 	}
+
 }
