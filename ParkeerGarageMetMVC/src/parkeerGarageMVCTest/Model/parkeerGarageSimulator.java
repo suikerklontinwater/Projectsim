@@ -2,6 +2,7 @@ package parkeerGarageMVCTest.Model;
 
 import java.util.Random;
 
+
 public class parkeerGarageSimulator {
 
 	private static final String AD_HOC = "1";
@@ -18,14 +19,14 @@ public class parkeerGarageSimulator {
 	private int tickPause = 5;
 	int ticks = 0;
 	int b = 0;
-	private static float ADHOCcount = 0;
-	private static float PASScount = 0;
-	private static float ALLcount = 0;
+	int d = 0;
+	static float PASScar = 0;
+	static float ADHOCcar = 0;
 
 	int weekDayArrivals = 20; // average number of arriving cars per hour
 	int weekendArrivals = 20; // average number of arriving cars per hour
-	int weekDayPassArrivals = 20; // average number of arriving cars per hour
-	int weekendPassArrivals = 20; // average number of arriving cars per hour
+	int weekDayPassArrivals = 8; // average number of arriving cars per hour
+	int weekendPassArrivals = 8; // average number of arriving cars per hour
 
 	int enterSpeed = 30; // number of cars that can enter per minute
 	// int enterSpeed = 10;
@@ -40,6 +41,7 @@ public class parkeerGarageSimulator {
 		// simulatorView = new parkeerGarageSimulatorView(2, 4, 40);
 		simulatorView = new parkeerGarageSimulatorViewModel(3, 6, 30);
 		// abonnementen = new parkeerGarageAbonnementen(1, 4, 45);
+		
 	}
 
 	public void run() {
@@ -52,7 +54,7 @@ public class parkeerGarageSimulator {
 		advanceTime();
 		handleExit();
 		updateViews();
-		countAllCars();
+		//countAllCars();
 		ticks++;
 		// Pause.
 		try {
@@ -66,10 +68,12 @@ public class parkeerGarageSimulator {
 	private void advanceTime() {
 		// Advance the time by one minute.
 		minute++;
+		if (minute == 30) {
+			checkTime();
+		}
 		while (minute > 59) {
 			minute -= 60;
 			hour++;
-			checkTime();
 		}
 		while (hour > 23) {
 			hour -= 24;
@@ -111,81 +115,83 @@ public class parkeerGarageSimulator {
 			switch (dayString) {
 			case "Saturday":
 			case "Sunday":
-				setCars(10, -6);
+				setCars(10, -6, 30, -6);
 				break;
 			default:
-				setCars(14, -1);
+				setCars(14, -1 , 42, -1);
 			}
 		case 3:
 			weekDayArrivals = 20;
 			weekendArrivals = 20;
-			setCars(40, 1);
+			weekDayPassArrivals = 7;
+			weekendPassArrivals = 7;
+			setCars(40, 1, 120, 1);
 			break;
 		case 6:
-			setCars(25, 1);
+			setCars(25, 1, 75, 1);
 			break;
 		case 9:
 			switch (dayString) {
 			case "Sunday":
-				setCars(10, 2);
+				setCars(10, 2, 15 ,1);
 				break;
 
 			default:
-				setCars(8, 1);
+				setCars(8, 1, 24, 1);
 			}
 			break;
 		case 12:
 			switch (dayString) {
 			case "Sunday":
-				setCars(10, 4);
+				setCars(10, 4 ,15, 2);
 				break;
 
 			default:
-				setCars(12, 3);
+				setCars(12, 3, 36, 3);
 			}
 			break;
 		case 15:
 			switch (dayString) {
 			case "Thursday":
-				setCars(10, 2);
+				setCars(10, 2, 15, 1);
 				break;
 
 			case "Friday":
 			case "Saturday":
-				setCars(10, 3);
+				setCars(10, 3, 15, 2);
 				break;
 
 			default:
-				setCars(20, 1);
+				setCars(20, 1, 60, 1);
 			}
 			break;
 		case 18:
 			switch (dayString) {
 			case "Thursday":
-				setCars(18, 2);
+				setCars(18, 2, 27, 1);
 				break;
 			case "Friday":
 			case "Saturday":
-				setCars(15, 3);
+				setCars(15, 3, 15, 1);
 				break;
 			default:
-				setCars(15, -3);
+				setCars(15, -3 , 15, -1);
 			}
 		case 21:
 			switch (dayString) {
 			case "Thursday":
-				setCars(10, -7);
+				setCars(10, -7, 30, -7);
 				break;
 			case "Friday":
 			case "Saturday":
 				break;
 			default:
-				setCars(10, -2);
+				setCars(10, -2, 15, -1);
 			}
 			break;
 		}
 
-		String time = (hour + ":00");
+		String time = (hour + ":30");
 		if (hour < 10) {
 			System.out.println(dayString + ": 0" + time);
 		} else {
@@ -274,22 +280,14 @@ public class parkeerGarageSimulator {
 		double numberOfCarsPerHour = averageNumberOfCarsPerHour + random.nextGaussian() * standardDeviation;
 		return (int) Math.round(numberOfCarsPerHour / 60);
 	}
-	public static float getADHOC() {
-		return ADHOCcount;
-	}
-	private void setADHOC() {
-		ADHOCcount--;
-	}
-	public static float getPASS() {
-		return PASScount;
-	}
-	private void setPASS() {
-		PASScount--;
-	}
 	
-	private static void countAllCars() {
-		ALLcount = (-getADHOC() + -getPASS() - parkeerGarageSimulatorViewModel.getDelCar());
-	}
+ public static float getADHOCcar() {
+	 return ADHOCcar;
+ }
+ public static float getPASScar() {
+	 return PASScar;
+ }
+	
 	
 	private void addArrivingCars(int numberOfCars, String type) {
 		// Add the cars to the back of the queue.
@@ -297,13 +295,13 @@ public class parkeerGarageSimulator {
 		case AD_HOC:
 			for (int i = 0; i < numberOfCars; i++) {
 				entranceCarQueue.addCar(new parkeerGarageAdHocCar());
-				setADHOC();
+				ADHOCcar--;
 			}
 			break;
 		case PASS:
 			for (int i = 0; i < numberOfCars; i++) {
 				entrancePassQueue.addCar(new parkeerGarageParkingPassCar());
-				setPASS();
+				PASScar--;
 			}
 			break;
 		}
@@ -314,17 +312,24 @@ public class parkeerGarageSimulator {
 		exitCarQueue.addCar(car);
 	}
 
-	private void setCars(int c, int weekDayArrival) {
+	private void setCars(int c, int weekDayArrival, int e, int weekDayPassArrival) {
 		for (int a = 1; a < 180; a++) {
 			b++;
-			if (b == c && weekDayArrivals > 0) {
+			d++;
+			if (b == c && (weekDayArrivals > 0 && weekendArrivals > 0)) {
 				weekDayArrivals += weekDayArrival;
 				weekendArrivals += weekDayArrival;
 				b = 0;
 			}
+			if (d == e && (weekDayPassArrivals > 0 && weekendPassArrivals > 0)) {
+				weekDayPassArrivals += weekDayPassArrival;
+				weekendPassArrivals += weekDayPassArrival;
+				d = 0;
+			}
 			tick();
 		}
 		b = 0;
+		d= 0;
 	}
 
 }

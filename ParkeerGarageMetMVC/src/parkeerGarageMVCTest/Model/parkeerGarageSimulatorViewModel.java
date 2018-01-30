@@ -16,19 +16,21 @@ public class parkeerGarageSimulatorViewModel extends JFrame {
 	private static int numberOfPlaces;
 	private static int numberOfOpenSpots;
 	private static parkeerGarageCar[][][] cars;
-	private static float delCar = 0;
+	public static float count = 0;
 
 	public parkeerGarageSimulatorViewModel(int numberOfFloors, int numberOfRows, int numberOfPlaces) {
+		super("ParkeerGarageSimulator");
 		parkeerGarageSimulatorViewModel.numberOfFloors = numberOfFloors;
 		parkeerGarageSimulatorViewModel.numberOfRows = numberOfRows;
 		parkeerGarageSimulatorViewModel.numberOfPlaces = numberOfPlaces;
 		parkeerGarageSimulatorViewModel.numberOfOpenSpots = numberOfFloors * numberOfRows * numberOfPlaces;
 		cars = new parkeerGarageCar[numberOfFloors][numberOfRows][numberOfPlaces];
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		carParkView = new parkeerGarageView.CarParkView();
 
 		Container contentPane = getContentPane();
-		contentPane.add(carParkView, BorderLayout.EAST);
+		contentPane.add(carParkView, BorderLayout.CENTER);
 		pack();
 		setVisible(true);
 
@@ -71,6 +73,7 @@ public class parkeerGarageSimulatorViewModel extends JFrame {
 			cars[freeLocation.getFloor()][freeLocation.getRow()][freeLocation.getPlace()] = car;
 			car.setLocation(freeLocation);
 			numberOfOpenSpots--;
+			count--;
 			return true;
 		}
 		return false;
@@ -86,12 +89,18 @@ public class parkeerGarageSimulatorViewModel extends JFrame {
 		}
 		cars[location.getFloor()][location.getRow()][location.getPlace()] = null;
 		car.setLocation(null);
-		delCar++;
+		
+		if (car.getIsPaying() == true ) {
+			parkeerGarageSimulator.ADHOCcar++;
+		}
+		else {
+			parkeerGarageSimulator.PASScar++;
+		}
+	
+		//delCar++;
+		count++;
 		numberOfOpenSpots++;
 		return car;
-	}
-	public static float getDelCar() {
-		return delCar;
 	}
 
 	public parkeerGarageLocation getFirstFreeLocation() {
@@ -101,6 +110,22 @@ public class parkeerGarageSimulatorViewModel extends JFrame {
 					parkeerGarageLocation location = new parkeerGarageLocation(floor, row, place);
 					if (getCarAt(location) == null) {
 						return location;
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
+	public parkeerGarageLocation getPassFirstFreeLocation() {
+		for (int floor = 3; floor < getNumberOfFloors(); floor++) {
+			for (int row = 0; row < getNumberOfRows(); row++) {
+				for (int place = 0; place < getNumberOfPlaces(); place++) {
+					parkeerGarageLocation location = new parkeerGarageLocation(floor, row, place);
+					if (getCarAt(location) == null) {
+						//if (car.getIsPaying() == false ) {
+						return location;
+						//}
 					}
 				}
 			}

@@ -24,7 +24,7 @@ public class parkeerGarageView {
 		}
 
 		public Dimension getPreferredSize() {
-			return new Dimension(800, 700);
+			return new Dimension(850, 600);
 		}
 
 		public void paintComponent(Graphics g) {
@@ -65,13 +65,15 @@ public class parkeerGarageView {
 			graphics.setColor(color);
 			graphics.fillRect(location.getFloor() * 260 + (1 + (int) Math.floor(location.getRow() * 0.5)) * 75
 					+ (location.getRow() % 2) * 20, 60 + location.getPlace() * 10, 20 - 1, 10 - 1); // TODO use dynamic
-																									// size or constants
+																									// size or constants'
 			graphics.setColor(Color.black);
-			graphics.fillArc(70, 400, 125, 125, 0, 360);
+			graphics.fillArc(80, 400, 125, 125, 0, 360);
+			//graphics.setColor(Color.red);
+			//graphics.fillArc(80, 400, 125, 125, 0, Math.round((parkeerGarageSimulatorViewModel.count / 540) * 360));
 			graphics.setColor(Color.red);
-			graphics.fillArc(70, 400, 125, 125, 0, Math.round((parkeerGarageSimulator.getADHOC() / 540) * 360));
+			graphics.fillArc(80, 400, 125, 125, 0, Math.round((parkeerGarageSimulator.getADHOCcar() / 540) * 360));
 			graphics.setColor(Color.blue);
-			graphics.fillArc(70, 400, 125, 125, Math.round((parkeerGarageSimulator.getADHOC() / 540) * 360), Math.round((parkeerGarageSimulator.getPASS() / 540) * 360));
+			graphics.fillArc(80, 400, 125, 125, Math.round((parkeerGarageSimulator.getADHOCcar() / 540) * 360), Math.round((parkeerGarageSimulator.getPASScar() / 540) * 360));
 		}
 	}
 

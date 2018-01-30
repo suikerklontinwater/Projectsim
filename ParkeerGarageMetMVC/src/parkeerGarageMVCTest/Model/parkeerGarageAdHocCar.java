@@ -1,6 +1,5 @@
 package parkeerGarageMVCTest.Model;
 
-
 import java.awt.Color;
 import java.util.Random;
 
